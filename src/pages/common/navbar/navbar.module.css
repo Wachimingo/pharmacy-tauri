@@ -1,0 +1,30 @@
+nav {
+  background-color: var(--bg-light);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+}
+
+li {
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: var(--font-color);
+}
+a:hover {
+  color: lightblue;
+  cursor: pointer;
+}

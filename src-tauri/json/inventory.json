@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "name": "Panadol",
+    "description": "For headaches",
+    "adquisitionDate": "01/01/2022",
+    "expirationDate": "01/04/2024",
+    "lab": "Fitzer",
+    "price": 0.25,
+    "amount": 100,
+    "totalPrice": 25
+  },
+  {
+    "id": 2,
+    "name": "Pepto",
+    "description": "For stomachaches",
+    "adquisitionDate": "01/02/2022",
+    "expirationDate": "01/05/2024",
+    "lab": "Fitzer",
+    "price": 1.0,
+    "amount": 100,
+    "totalPrice": 1000
+  },
+  {
+    "id": 3,
+    "name": "Sal Andrew",
+    "description": "For stomachaches",
+    "adquisitionDate": "01/02/2022",
+    "expirationDate": "01/05/2024",
+    "lab": "Lopez",
+    "price": 0.5,
+    "amount": 200,
+    "totalPrice": 1000
+  }
+]
