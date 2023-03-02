@@ -9,7 +9,7 @@ const createWrapperAndAppendToBody = (wrapperId: any) => {
 };
 
 export const ReactPortal = ({ children, wrapperId = "react-portal-wrapper" }: any) => {
-  const [wrapperElement, setWrapperElement] = useState<any>(null);
+  const [wrapperElement, setWrapperElement] = useState<any>(undefined);
 
   useLayoutEffect(() => {
     let element = document.getElementById(wrapperId) as HTMLElement;
@@ -26,7 +26,7 @@ export const ReactPortal = ({ children, wrapperId = "react-portal-wrapper" }: an
     };
   }, [wrapperId]);
 
-  if (wrapperElement === null) return null;
+  if (!wrapperElement) return <></>;
 
   return createPortal(children, wrapperElement as HTMLElement);
 };

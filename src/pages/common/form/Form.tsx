@@ -5,7 +5,7 @@ import styles from "./form.module.css";
 
 export const Form = ({ children, ...props }) => {
   return (
-    <form className={styles[FORM]}>
+    <form className={styles[FORM]} {...props}>
       <div className={styles[FORM_INNER_CONTAINER]}>{children}</div>
       <input type='submit' />
     </form>
