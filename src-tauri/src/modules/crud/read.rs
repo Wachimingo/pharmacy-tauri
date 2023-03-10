@@ -1,24 +1,24 @@
+use serde::{Deserialize, Serialize};
 use std::fs;
 
-// struct Product {
-//     id: u32,
-//     name: String,
-//     description: String,
-//     adquisitionDate: String,
-//     expirationDate: String,
-//     lab: String,
-//     price: u32,
-//     amount: u32,
-//     totalPrice: u32,
-// }
-
-#[tauri::command]
-pub fn json_file(name: &str) -> String {
-    let file_content = fs::read_to_string("json/".to_owned() + name).expect("Coudn't read file");
-    return file_content;
+#[derive(Serialize, Deserialize)]
+pub struct Product {
+    id: u32,
+    name: String,
+    description: String,
+    adquisition_date: String,
+    expiration_date: String,
+    lab: String,
+    price: f32,
+    amount: f32,
+    total_price: u32,
 }
 
-// #[tauri::command]
-// pub fn greet(name: &str) -> String {
-//    format!("Hello, {}!", name)
-// }
+#[tauri::command]
+pub fn json_file(name: &str) -> Vec<Product>
+where
+    Vec<Product>: Serialize,
+{
+    let json: String = fs::read_to_string("json/".to_owned() + name).expect("Coudn't read file");
+    serde_json::from_str::<Vec<Product>>(&json).expect("Couldn't parse")
+}

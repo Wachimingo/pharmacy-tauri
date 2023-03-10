@@ -2,6 +2,7 @@ import React from "react";
 //@ts-ignore
 import styles from "./table.module.css";
 export const Table = ({ id, data }) => {
+  if (data === null) data = [];
   return (
     <table id={id} className={styles}>
       <thead>
@@ -18,17 +19,17 @@ export const Table = ({ id, data }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
+        {data.map((item: any) => (
           <tr key={item.id}>
             <td>{item.id}</td>
             <td>{item.name}</td>
             <td>{item.description}</td>
-            <td>{item.adquisitionDate}</td>
-            <td>{item.expirationDate}</td>
+            <td>{item.adquisition_date}</td>
+            <td>{item.expiration_date}</td>
             <td>{item.lab}</td>
             <td>{item.price}</td>
             <td>{item.amount}</td>
-            <td>{item.totalPrice}</td>
+            <td>{item.total_price}</td>
           </tr>
         ))}
       </tbody>

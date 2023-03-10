@@ -1,11 +1,11 @@
 import React from "react";
 import { Div } from "../containers";
 
-export const Input = ({ type, id, fieldName, action }: any): JSX.Element => {
+export const Input = ({ id, fieldName, onChange, ...props }: any): JSX.Element => {
   return (
     <Div column>
       <label htmlFor={id}>{fieldName}</label>
-      <input id={id} type={type} />
+      <input id={id} onChange={onChange} {...props} />
     </Div>
   );
 };
