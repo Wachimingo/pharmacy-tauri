@@ -11,7 +11,7 @@ pub struct Product {
     lab: String,
     price: f32,
     amount: f32,
-    total_price: u32,
+    total_price: f32,
 }
 
 #[tauri::command]

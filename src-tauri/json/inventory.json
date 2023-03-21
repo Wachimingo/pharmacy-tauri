@@ -32,4 +32,4 @@
     "amount": 200,
     "total_price": 1000
   }
-]
+,{"id":4,"name":"test","description":"test","expiration_date":"2023-03-21","lab":"test","price":1.0,"amount":1.0,"adquisition_date":"2023-03-21 16:35:55.682135900 -06:00","total_price":1.0}]

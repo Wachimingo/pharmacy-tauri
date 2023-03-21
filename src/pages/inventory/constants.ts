@@ -2,6 +2,7 @@ export const INVENTORY = "Inventory";
 export const ADD = "Add";
 export const ADD_PRODUCT = `${ADD} product`;
 export const TEXT = "text";
+export const DATE = "date";
 export const NUMBER = "number";
 export const NAME = "Name";
 export const DESCRIPTION = "Description";

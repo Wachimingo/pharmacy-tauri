@@ -1,8 +1,9 @@
 use chrono;
 use serde::{Deserialize, Serialize};
 use std::fs;
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize)]
 pub struct InputProduct {
+    last_id: i32,
     name: String,
     description: String,
     expiration_date: String,
@@ -10,8 +11,9 @@ pub struct InputProduct {
     price: f32,
     amount: f32,
 }
-#[derive(Serialize, Deserialize, Debug)]
-struct ProcessedProduct {
+#[derive(Serialize, Deserialize)]
+pub struct ProcessedProduct {
+    id: i32,
     name: String,
     description: String,
     expiration_date: String,
@@ -23,8 +25,9 @@ struct ProcessedProduct {
 }
 
 #[tauri::command]
-pub fn save_to_json_file(name: String, product: InputProduct) -> String {
+pub fn save_to_json_file(name: String, product: InputProduct) -> ProcessedProduct {
     let new_product: ProcessedProduct = ProcessedProduct {
+        id: product.last_id + 1,
         name: product.name,
         description: product.description,
         expiration_date: product.expiration_date,
@@ -34,12 +37,11 @@ pub fn save_to_json_file(name: String, product: InputProduct) -> String {
         adquisition_date: chrono::offset::Local::now().to_string(),
         total_price: product.price * product.amount,
     };
-    println!("{:#?}", &new_product);
-    let mut json_string: String =
+    let json_string: String =
         fs::read_to_string("json/".to_owned() + &name).expect("Coudn't read file");
-    json_string.truncate(&json_string.len() - 1);
+    let modified_json_string: &str = &json_string[0..json_string.len() - 3];
     let new_product_string: String = serde_json::to_string(&new_product).expect("Couldn't parse");
-    let new_json_string: String = json_string + ", /n" + &new_product_string + "]";
+    let new_json_string: String = modified_json_string.to_owned() + "," + &new_product_string + "]";
     fs::write("json/".to_owned() + &name, new_json_string).expect("Cound't write to file");
-    return "saved".to_string();
+    return new_product;
 }
