@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Main, Page, Section, Table, Button } from "../common";
 import { invoke } from "@tauri-apps/api";
 import { Modal } from "../common/modal";
@@ -7,9 +7,10 @@ import { Form } from "../common/form/Form";
 import { Input } from "../common/form";
 import { Product } from "./types";
 
-const data: Product[] = await invoke("json_file", { name: "inventory.json" });
+// const data: Product[] = await invoke("json_file", { name: "inventory.json" });
 
 export const Inventory = () => {
+  const [data, setData] = useState<Product[]>([]);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>();
@@ -21,11 +22,19 @@ export const Inventory = () => {
     setShowPopup(true);
   };
 
-  const saveToJSON = async (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const loadFromJSON = async (): Promise<void> => {
+      const res: Product[] = await invoke("json_file", { name: "inventory.json" });
+      setData(res);
+    };
+    loadFromJSON();
+  }, []);
+
+  const saveToJSON = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     await invoke("save_to_json_file", {
       name: "inventory.json",
-      product: { last_id: data[data.length - 1].id, name, description, expiration_date: expires, lab, price, amount }
+      product: { last_id: data![data!.length - 1].id, name, description, expiration_date: expires, lab, price, amount }
     });
   };
 
