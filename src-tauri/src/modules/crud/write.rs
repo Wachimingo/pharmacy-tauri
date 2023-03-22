@@ -39,7 +39,7 @@ pub fn save_to_json_file(name: String, product: InputProduct) -> ProcessedProduc
     };
     let json_string: String =
         fs::read_to_string("json/".to_owned() + &name).expect("Coudn't read file");
-    let modified_json_string: &str = &json_string[0..json_string.len() - 3];
+    let modified_json_string: &str = &json_string[0..json_string.len() - 1];
     let new_product_string: String = serde_json::to_string(&new_product).expect("Couldn't parse");
     let new_json_string: String = modified_json_string.to_owned() + "," + &new_product_string + "]";
     fs::write("json/".to_owned() + &name, new_json_string).expect("Cound't write to file");
