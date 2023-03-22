@@ -24,18 +24,19 @@ export const Inventory = () => {
 
   useEffect(() => {
     const loadFromJSON = async (): Promise<void> => {
-      const res: Product[] = await invoke("json_file", { name: "inventory.json" });
-      setData(res);
+      const productsInFile: Product[] = await invoke("json_file", { name: "inventory.json" });
+      setData(productsInFile);
     };
     loadFromJSON();
   }, []);
 
   const saveToJSON = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    await invoke("save_to_json_file", {
+    const newProduct: Product = await invoke("save_to_json_file", {
       name: "inventory.json",
       product: { last_id: data![data!.length - 1].id, name, description, expiration_date: expires, lab, price, amount }
     });
+    setData((prev: Product[]) => [...prev, newProduct]);
   };
 
   return (
