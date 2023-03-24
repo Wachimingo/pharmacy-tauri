@@ -10,7 +10,7 @@ pub struct Product {
     expiration_date: String,
     lab: String,
     price: f32,
-    amount: f32,
+    amount: i32,
     total_price: f32,
 }
 

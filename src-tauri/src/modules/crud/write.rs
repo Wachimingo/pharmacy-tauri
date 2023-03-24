@@ -9,7 +9,7 @@ pub struct InputProduct {
     expiration_date: String,
     lab: String,
     price: f32,
-    amount: f32,
+    amount: i32,
 }
 #[derive(Serialize, Deserialize)]
 pub struct ProcessedProduct {
@@ -19,9 +19,9 @@ pub struct ProcessedProduct {
     expiration_date: String,
     lab: String,
     price: f32,
-    amount: f32,
+    amount: i32,
     adquisition_date: String,
-    total_price: f32,
+    total_price: i32,
 }
 
 #[tauri::command]
@@ -35,7 +35,7 @@ pub fn save_to_json_file(name: String, product: InputProduct) -> ProcessedProduc
         price: product.price,
         amount: product.amount,
         adquisition_date: chrono::offset::Local::now().to_string(),
-        total_price: product.price * product.amount,
+        total_price: (product.price * product.amount as f32) as i32,
     };
     let json_string: String =
         fs::read_to_string("json/".to_owned() + &name).expect("Coudn't read file");
