@@ -7,7 +7,8 @@ import { Form } from "../common/form/Form";
 import { Input } from "../common/form";
 import { Product } from "./types";
 
-// const data: Product[] = await invoke("json_file", { name: "inventory.json" });
+const headers: Array<string> = ["ID", NAME, DESCRIPTION, DATE, EXPIRES_IN, LAB, PRICE, AMOUNT, "Total Price"];
+const fields: Array<string> = ["id", "name", "description", "adquisition_date", "expiration_date", "lab", "price", "amount", "total_price"];
 
 export const Inventory = () => {
   const [data, setData] = useState<Product[]>([]);
@@ -50,7 +51,7 @@ export const Inventory = () => {
         </Section>
         <br />
         <Main column>
-          <Table id={INVENTORY} data={data} />
+          <Table id={INVENTORY} headers={headers} fields={fields} data={data} />
         </Main>
       </Page>
       <Modal show={showPopup} setShow={setShowPopup}>

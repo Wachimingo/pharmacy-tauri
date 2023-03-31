@@ -4,3 +4,4 @@ export * from "./table";
 export * from "./button";
 export * from "./portal";
 export * from "./modal";
+export * from "./menu";
