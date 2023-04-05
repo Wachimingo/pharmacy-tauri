@@ -22,7 +22,6 @@ export const Inventory = () => {
   const buttonHandler = () => {
     setShowPopup(true);
   };
-
   useEffect(() => {
     const loadFromJSON = async (): Promise<void> => {
       const productsInFile: Product[] = await invoke("json_file", { name: "inventory.json" });
@@ -51,18 +50,23 @@ export const Inventory = () => {
         </Section>
         <br />
         <Main column>
-          <Table id={INVENTORY} headers={headers} fields={fields} data={data} />
+          <Table id={`${INVENTORY}-table`} headers={headers} fields={fields} data={data} />
         </Main>
       </Page>
       <Modal show={showPopup} setShow={setShowPopup}>
         <h1>{ADD_PRODUCT}</h1>
         <Form id='addProduct' onSubmit={(e: React.FormEvent<HTMLFormElement>) => saveToJSON(e)}>
-          <Input type={TEXT} id={NAME.toLowerCase()} fieldName={NAME} onChange={(e) => setName(e.target.value)} />
-          <Input type={TEXT} id={DESCRIPTION.toLowerCase()} fieldName={DESCRIPTION} onChange={(e) => setDescription(e.target.value)} />
-          <Input type={DATE} id={EXPIRES} fieldName={EXPIRES_IN} onChange={(e) => setExpires(e.target.value)} />
-          <Input type={TEXT} id={LAB} fieldName={LABORATORY} onChange={(e) => setLab(e.target.value)} />
-          <Input type={NUMBER} id={PRICE.toLowerCase()} fieldName={PRICE} onChange={(e) => setPrice(+e.target.value)} />
-          <Input type={NUMBER} id={AMOUNT.toLowerCase()} fieldName={AMOUNT} onChange={(e) => setAmount(+e.target.value)} />
+          <Input type={TEXT} id={NAME.toLowerCase()} fieldName={NAME} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+          <Input
+            type={TEXT}
+            id={DESCRIPTION.toLowerCase()}
+            fieldName={DESCRIPTION}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
+          />
+          <Input type={DATE} id={EXPIRES} fieldName={EXPIRES_IN} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setExpires(e.target.value)} />
+          <Input type={TEXT} id={LAB} fieldName={LABORATORY} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLab(e.target.value)} />
+          <Input type={NUMBER} id={PRICE.toLowerCase()} fieldName={PRICE} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(+e.target.value)} />
+          <Input type={NUMBER} id={AMOUNT.toLowerCase()} fieldName={AMOUNT} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(+e.target.value)} />
         </Form>
       </Modal>
     </>
