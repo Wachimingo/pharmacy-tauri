@@ -8,10 +8,14 @@ type TableProps = {
   headers: Array<string>;
   fields: Array<string>;
   data: any;
+  addNewData: Function;
+  modifyData: Function;
+  deleteData: Function;
 };
 
-export const Table = ({ id = "data-table", headers = [], fields = [], data = [{}] }: TableProps) => {
+export const Table = ({ id = "data-table", headers = [], fields = [], data = [{}], addNewData, modifyData, deleteData }: TableProps) => {
   const [showContext, setShowContext] = useState(false);
+  const [selectedRow, setSelectedRow] = useState({});
   return (
     <>
       <table id={id} className={styles}>
@@ -28,6 +32,7 @@ export const Table = ({ id = "data-table", headers = [], fields = [], data = [{}
               key={item.id}
               onContextMenu={(e: React.MouseEvent) => {
                 e.preventDefault();
+                setSelectedRow(item);
                 setShowContext(true);
               }}>
               {fields.map((field, key) => (
@@ -41,9 +46,10 @@ export const Table = ({ id = "data-table", headers = [], fields = [], data = [{}
         show={showContext}
         onClickOutside={() => {
           setShowContext(false);
-        }}
-        message='Opened context menu'
-      />
+        }}>
+        <button onClick={modifyData.bind(selectedRow)}>Modify</button>
+        <button onClick={deleteData.bind(selectedRow)}>Delete</button>
+      </Context>
     </>
   );
 };

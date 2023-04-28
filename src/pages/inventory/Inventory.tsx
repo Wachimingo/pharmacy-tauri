@@ -12,13 +12,18 @@ const fields: Array<string> = ["id", "name", "description", "adquisition_date", 
 
 export const Inventory = () => {
   const [data, setData] = useState<Product[]>([]);
+  const [product, setProduct] = useState<Product>({
+    id: 0,
+    name: "",
+    description: "",
+    adquisitionDate: "",
+    expirationDate: "",
+    lab: "",
+    price: 0,
+    amount: 0,
+    totalPrice: 0
+  });
   const [showPopup, setShowPopup] = useState<boolean>(false);
-  const [name, setName] = useState<string>();
-  const [description, setDescription] = useState<string>();
-  const [expires, setExpires] = useState<string>();
-  const [lab, setLab] = useState<string>();
-  const [price, setPrice] = useState<number>();
-  const [amount, setAmount] = useState<number>();
   const buttonHandler = () => {
     setShowPopup(true);
   };
@@ -34,9 +39,28 @@ export const Inventory = () => {
     e.preventDefault();
     const newProduct: Product = await invoke("save_to_json_file", {
       name: "inventory.json",
-      product: { last_id: data![data!.length - 1].id, name, description, expiration_date: expires, lab, price, amount }
+      product: {
+        last_id: data![data!.length - 1].id,
+        name: product.name,
+        description: product.description,
+        expiration_date: product.expirationDate,
+        lab: product.lab,
+        price: product.price,
+        amount: product.amount
+      }
     });
     setData((prev: Product[]) => [...prev, newProduct]);
+  };
+
+  async function modifiyProducts(): Promise<void> {
+    console.log(this);
+  }
+
+  const updateProductState = (key, data) => {
+    setProduct((prev) => {
+      prev[key] = data;
+      return prev;
+    });
   };
 
   return (
@@ -50,23 +74,46 @@ export const Inventory = () => {
         </Section>
         <br />
         <Main column>
-          <Table id={`${INVENTORY}-table`} headers={headers} fields={fields} data={data} />
+          <Table
+            id={`${INVENTORY}-table`}
+            headers={headers}
+            fields={fields}
+            data={data}
+            addNewData={saveToJSON}
+            modifyData={modifiyProducts}
+            deleteData={() => null}
+          />
         </Main>
       </Page>
       <Modal show={showPopup} setShow={setShowPopup}>
         <h1>{ADD_PRODUCT}</h1>
         <Form id='addProduct' onSubmit={(e: React.FormEvent<HTMLFormElement>) => saveToJSON(e)}>
-          <Input type={TEXT} id={NAME.toLowerCase()} fieldName={NAME} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+          <Input type={TEXT} id='name ' fieldName='Name' onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateProductState("name", e.target.value)} />
           <Input
             type={TEXT}
-            id={DESCRIPTION.toLowerCase()}
-            fieldName={DESCRIPTION}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
+            id='description'
+            fieldName='Description'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateProductState("description", e.target.value)}
           />
-          <Input type={DATE} id={EXPIRES} fieldName={EXPIRES_IN} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setExpires(e.target.value)} />
-          <Input type={TEXT} id={LAB} fieldName={LABORATORY} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLab(e.target.value)} />
-          <Input type={NUMBER} id={PRICE.toLowerCase()} fieldName={PRICE} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(+e.target.value)} />
-          <Input type={NUMBER} id={AMOUNT.toLowerCase()} fieldName={AMOUNT} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAmount(+e.target.value)} />
+          <Input
+            type={DATE}
+            id='expirationDate'
+            fieldName='Expiration Date'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateProductState("expirationDate", e.target.value)}
+          />
+          <Input type={TEXT} id='lab' fieldName={LABORATORY} onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateProductState("lab", e.target.value)} />
+          <Input
+            type={NUMBER}
+            id='price'
+            fieldName='Price'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateProductState("price", +e.target.value)}
+          />
+          <Input
+            type={NUMBER}
+            id='amount'
+            fieldName='Amount'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateProductState("amount", +e.target.value)}
+          />
         </Form>
       </Modal>
     </>
