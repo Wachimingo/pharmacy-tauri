@@ -45,3 +45,32 @@ pub fn save_to_json_file(name: String, product: InputProduct) -> ProcessedProduc
     fs::write("json/".to_owned() + &name, new_json_string).expect("Cound't write to file");
     return new_product;
 }
+
+#[tauri::command]
+pub fn save_modified_to_json_file(
+    name: String,
+    old_product: ProcessedProduct,
+    product: InputProduct,
+) -> Vec<ProcessedProduct>
+where
+    Vec<ProcessedProduct>: Serialize,
+{
+    let new_product: ProcessedProduct = ProcessedProduct {
+        id: product.last_id,
+        name: product.name,
+        description: product.description,
+        expiration_date: product.expiration_date,
+        lab: product.lab,
+        price: product.price,
+        amount: product.amount,
+        adquisition_date: old_product.adquisition_date.to_owned(),
+        total_price: (product.price * product.amount as f32) as i32,
+    };
+    let old_product_string: String = serde_json::to_string(&old_product).expect("Couldn't parse");
+    let new_product_string: String = serde_json::to_string(&new_product).expect("Couldn't parse");
+    let mut json_string: String =
+        fs::read_to_string("json/".to_owned() + &name).expect("Coudn't read file");
+    json_string.replace(&old_product_string, &new_product_string);
+    fs::write("json/".to_owned() + &name, &json_string).expect("Cound't write to file");
+    return serde_json::from_str(&json_string).expect("Couldn't parse");
+}
