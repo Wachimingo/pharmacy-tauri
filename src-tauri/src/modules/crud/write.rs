@@ -51,10 +51,7 @@ pub fn save_modified_to_json_file(
     name: String,
     old_product: ProcessedProduct,
     product: InputProduct,
-) -> Vec<ProcessedProduct>
-where
-    Vec<ProcessedProduct>: Serialize,
-{
+) -> Vec<ProcessedProduct> {
     let new_product: ProcessedProduct = ProcessedProduct {
         id: product.last_id,
         name: product.name,
