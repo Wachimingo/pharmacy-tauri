@@ -16,7 +16,7 @@
     "description": "test",
     "expiration_date": "2023-04-28",
     "lab": "test",
-    "price": 1.0,
+    "price": 1,
     "amount": 11,
     "adquisition_date": "2023-04-28 10:07:38.797816200 -06:00",
     "total_price": 11

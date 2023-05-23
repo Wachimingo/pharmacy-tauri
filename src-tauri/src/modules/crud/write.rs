@@ -65,9 +65,10 @@ pub fn save_modified_to_json_file(
     };
     let old_product_string: String = serde_json::to_string(&old_product).expect("Couldn't parse");
     let new_product_string: String = serde_json::to_string(&new_product).expect("Couldn't parse");
-    let mut json_string: String =
+    let json_string: String =
         fs::read_to_string("json/".to_owned() + &name).expect("Coudn't read file");
-    json_string.replace(&old_product_string, &new_product_string);
-    fs::write("json/".to_owned() + &name, &json_string).expect("Cound't write to file");
-    return serde_json::from_str(&json_string).expect("Couldn't parse");
+    let replaced_json_string: String =
+        json_string.replace(&old_product_string, &new_product_string);
+    fs::write("json/".to_owned() + &name, &replaced_json_string).expect("Cound't write to file");
+    return serde_json::from_str(&replaced_json_string).expect("Couldn't parse");
 }
